@@ -9,7 +9,7 @@ from .models import Repo
 
 class RepoCreateView(APIView):   #creates an API endpoint handler.
 
-    def post(self, request):   #post is a method name that DRF uses to map HTTP POST requests to your code.
+    def post(self, request):   #post is a method name that DRF uses to map HTTP POST requests to your code
         url = request.data.get("url")
 
         if not url:
