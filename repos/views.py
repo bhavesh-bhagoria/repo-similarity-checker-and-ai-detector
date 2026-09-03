@@ -1,9 +1,9 @@
 from django.shortcuts import render
-
+import uuid
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from .services import clone_repository
 from .models import Repo
 
 
@@ -18,7 +18,17 @@ class RepoCreateView(APIView):   #creates an API endpoint handler.
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        repo = Repo.objects.create(url=url)
+        repo = Repo.objects.create(url=url)  #saves the repository information in database.
+
+        try:
+            clone_repository(url, "/tmp/test_repo")
+
+            repo.status = "done"
+            repo.save()
+
+        except Exception:
+            repo.status = "failed"
+            repo.save()
 
         return Response(
             {

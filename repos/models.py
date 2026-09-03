@@ -15,15 +15,11 @@ class RepoFile(models.Model):
     ai_score = models.FloatField(null=True, blank=True)
 
 class SimilarityMatch(models.Model):
-    repo_a = models.ForeignKey(
-        Repo,
+    repo_a = models.ForeignKey(Repo,
         on_delete=models.CASCADE,
-        related_name="matches_as_a"
-    )
-    repo_b = models.ForeignKey(
-        Repo,
+        related_name="matches_as_a")
+    repo_b = models.ForeignKey(Repo,
         on_delete=models.CASCADE,
-        related_name="matches_as_b"
-    )
+        related_name="matches_as_b")
     score = models.FloatField()
     matched_files = models.JSONField(default=dict)
