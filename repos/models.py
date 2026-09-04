@@ -4,6 +4,7 @@ from django.db import models
 class Repo(models.Model):
     url = models.URLField()
     status = models.CharField(max_length=20, default="pending")
+    clone_path = models.CharField(max_length=500, null=True, blank=True)
     ai_score = models.FloatField(null=True, blank=True)
     checked_at = models.DateTimeField(null=True, blank=True)
 
@@ -16,10 +17,8 @@ class RepoFile(models.Model):
 
 class SimilarityMatch(models.Model):
     repo_a = models.ForeignKey(Repo,
-        on_delete=models.CASCADE,
-        related_name="matches_as_a")
+        on_delete=models.CASCADE)
     repo_b = models.ForeignKey(Repo,
-        on_delete=models.CASCADE,
-        related_name="matches_as_b")
+        on_delete=models.CASCADE)
     score = models.FloatField()
     matched_files = models.JSONField(default=dict)
