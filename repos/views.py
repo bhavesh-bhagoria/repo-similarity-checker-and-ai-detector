@@ -3,8 +3,9 @@ import uuid
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .services import clone_repository,get_source_files
+from .services import clone_repository,get_source_files,read_all_files
 from .models import Repo
+
 
 
 class RepoCreateView(APIView):   #creates an API endpoint handler.
@@ -23,6 +24,7 @@ class RepoCreateView(APIView):   #creates an API endpoint handler.
         try:
             clone_repository(url, destination)  #clones the repository to a temporary location.
             files = get_source_files(destination)
+            contents = read_all_files(files)
             repo.status = "done"
             repo.save()
 
